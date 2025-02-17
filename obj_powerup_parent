@@ -1,0 +1,32 @@
+///Step Event:
+
+image_angle += random_rot
+
+
+if instance_exists(obj_player)
+{
+	if (global.upgrade_attract) //create this
+	{
+		if (keyboard_check(vk_shift)) or (global.upgrade_attract_toggle) //create this
+		{
+			var _target_direction = point_direction(x,y,obj_player.x,obj_player.y);
+			var _distance_to_player = point_distance(x,y,obj_player.x,obj_player.y);
+			var _max_distance = global.upgrade_attact_distance; //currently 500
+			var _min_drift_speed = 0.02;
+			var _max_drift_speed = 0.2;
+			var _drift_speed = lerp(_min_drift_speed,_max_drift_speed,clamp(1 - (_distance_to_player / _max_distance), 0,1));
+
+			var _min_distance = 0;
+			var _min_speed = 1;
+			var _max_speed = global.upgrade_attract_speed; //5 feels good but have more upgrades purchased into this increase the speed. Start at 1.
+			var _attract_speed = lerp(_min_speed, _max_speed, clamp(1 - (_distance_to_player / _max_distance),0,1));
+
+			direction = lerp(direction, _target_direction,_drift_speed);
+			speed = lerp(speed, _attract_speed,0.1);
+		}
+	}
+}
+else
+{
+	direction = direction;
+}
